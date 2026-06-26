@@ -9,6 +9,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include "ansi_color.hpp"
+#include "nlohmann/json.hpp"
 
 static void set_nonblocking(int fd) {
     int flags = fcntl(fd, F_GETFL, 0);
@@ -96,7 +97,11 @@ int main(int argc, char* argv[]) {
                     if (buf[r - 1] != '\n') std::cout << "\n";
 
                     // 回复 ok + 递增数据戳
-                    std::string reply = "ok " + std::to_string(++counter) + "\n";
+                    // 封装成json格式返回
+                    nlohmann::json reply_json;
+                    reply_json["status"] = "ok";
+                    reply_json["counter"] = ++counter;
+                    std::string reply = reply_json.dump() + "\n";
                     ::send(fd, reply.c_str(), reply.size(), MSG_NOSIGNAL);
                 }
             }
