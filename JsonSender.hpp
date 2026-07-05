@@ -58,7 +58,7 @@ public:
     }
     bool send(const nlohmann::json& j) {
         if (sock_fd_ < 0) return false;
-        std::string data = j.dump();
+        std::string data = j.dump()+std::string("\n");
         ssize_t sent = ::send(sock_fd_, data.c_str(), data.size(), MSG_NOSIGNAL);
         if (sent < 0) {
             perror("send failed");
