@@ -6,7 +6,7 @@ from LED import LEDController
 from cmd_handler import CommandHandler
 
 HOST = "0.0.0.0"
-PORT = 8080
+PORT = 9527
 
 leds = LEDController(data_led_pin=12, status_led_pin=13)
 leds.status.fast_blink()
